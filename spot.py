@@ -13,13 +13,17 @@ class spot:
     def set_radius(self,r):
         self._radius = r
     def set_coord(self,c):
-        self._coord = c    
+        self._coord = c  
+    @property  
     def get_coord(self):
         return self._coord
+    @property
     def get_color(self):
         return self._color
+    @property
     def get_pos(self):
         return self._pos
+    @property
     def get_radius(self):
         return self._radius
     def make_begin(self):
