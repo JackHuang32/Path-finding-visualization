@@ -56,6 +56,10 @@ class spot:
         pygame.draw.circle(win,self._color,self._coord,self._radius,0)
         pygame.draw.circle(win,BLACK,self._coord,self._radius,3)
         pygame.display.update()
+    def vanish(self,win):
+        pygame.draw.circle(win,BLACK,self._coord,self._radius,0)
+        pygame.draw.circle(win,BLACK,self._coord,self._radius,3)
+        pygame.display.update()
     coord = property(lambda self:self.get_coord,
                      lambda self,c:self.set_coord(c))
     color = property(lambda self:self.get_color,
