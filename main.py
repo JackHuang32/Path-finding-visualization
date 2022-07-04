@@ -1,11 +1,11 @@
-from pickle import FALSE
-from turtle import width
+from queue import PriorityQueue
+from tkinter import Grid
 from color import*
 import pygame
 from spot import spot
 WIDTH = 800
 PAD = 50
-NUMBER = 6
+NUMBER = 20
 DIAMETER = (WIDTH-2*PAD)/(2*NUMBER-1)
 RADIUS = DIAMETER/2
 GRID=[[spot(RADIUS,PAD+RADIUS+2*j*DIAMETER,PAD+RADIUS+2*i*DIAMETER,i,j) for j in range(NUMBER)] for i in range(NUMBER)]
@@ -33,13 +33,17 @@ def get_clicked_pos(coord):
         return False
     if x > WIDTH-PAD or y > WIDTH-PAD:
         return False
-    row = int((x-PAD)//(2*DIAMETER))
-    col = int((y-PAD)//(2*DIAMETER))
+    col = int((x-PAD)//(2*DIAMETER))
+    row = int((y-PAD)//(2*DIAMETER))
     near = GRID[row][col].coord
     if (near[0]-x)**2+(near[1]-y)**2 < RADIUS**2:
         return row,col
     else:
-        return FALSE
+        return False
+def A_PATH(start,end):
+    pq = PriorityQueue()
+    while not pq.empty():
+        
 if __name__ == '__main__':
     
     pygame.init()
@@ -58,10 +62,24 @@ if __name__ == '__main__':
                 pos = pygame.mouse.get_pos()
                 pos = get_clicked_pos(pos)
                 if pos != False and not start:
-                    GRID[pos[0]][pos[1]].make_begin()
-                elif pos != False and not end:
-                    GRID[pos[0]][pos[1]].make_end()
-                elif pos != False:
-                    GRID[pos[0]][pos[1]].make_block()
-        pygame.display.update()
+                    GRID[pos[0]][pos[1]].make_begin(win)
+                    start = GRID[pos[0]][pos[1]]
+                    #print('make begin!')
+                elif pos != False and not end and not GRID[pos[0]][pos[1]].is_begin():
+                    GRID[pos[0]][pos[1]].make_end(win)
+                    end = GRID[pos[0]][pos[1]]
+                    #print('make end!')
+                elif pos != False and not GRID[pos[0]][pos[1]].is_begin() and not GRID[pos[0]][pos[1]].is_end():
+                    GRID[pos[0]][pos[1]].make_block(win)
+                    #print('make block!')
+            if pygame.mouse.get_pressed()[2]:
+                pos = pygame.mouse.get_pos()
+                pos = get_clicked_pos(pos)
+                if pos != False:
+                    GRID[pos[0]][pos[1]].make_origin(win)
+                    if start and start.pos == pos:
+                        start = None
+                    if end and end.pos == pos:
+                        end = None
+            pygame.display.update()
     pygame.quit()

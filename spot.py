@@ -14,6 +14,16 @@ class spot:
         self._radius = r
     def set_coord(self,c):
         self._coord = c  
+    def neighbors(self,grid):
+        row,col = self.pos
+        tmp=[]
+        for i in range(row-1,row+2):
+            for j in range(col-1,col+2):
+                if i == row and j == col:
+                    continue
+                if i>0 and j>0:
+                    tmp.append(grid[i][j])
+        return tmp       
     @property  
     def get_coord(self):
         return self._coord
@@ -26,28 +36,35 @@ class spot:
     @property
     def get_radius(self):
         return self._radius
-    def make_begin(self):
+    def make_begin(self,win):
         self.set_color(GREEN)
-    def make_end(self):
+        self.show(win)
+    def make_end(self,win):
         self.set_color(RED)
-    def make_block(self):
+        self.show(win)
+    def make_block(self,win):
         self.set_color(BLACK)
-    def make_origin(self):
+        self.show(win)
+    def make_origin(self,win):
         self.set_color(WHITE)
-    def make_done(self):
+        self.show(win)
+    def make_done(self,win):
         self.set_color(TEAL)
-    def make_current(self):
+        self.show(win)
+    def make_current(self,win):
         self.set_color(PURPLE)
-    def make_path(self):
+        self.show(win)
+    def make_path(self,win):
         self.set_color(YELLOW)
+        self.show(win)
     def is_block(self):
         return self.color == BLACK
     def is_begin(self):
-        return self.color == WHITE
+        return self.color == GREEN
     def is_end(self):
         return self.color == RED
     def is_origin(self):
-        return self.color == GREEN
+        return self.color == WHITE
     def is_done(self):
         return self.color == TEAL
     def is_current(self):
