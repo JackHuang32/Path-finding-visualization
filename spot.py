@@ -6,6 +6,12 @@ class spot:
         self.set_coord((x,y))
         self.set_color(WHITE)
         self.set_pos((row,col))
+    def __eq__(self,other):
+        return self.pos == other.pos
+    def __hash__(self):
+        return hash(self.coord)
+    def __lt__(self,other):
+        return False
     def set_color(self,c):
         self._color = c
     def set_pos(self,p):
@@ -21,7 +27,7 @@ class spot:
             for j in range(col-1,col+2):
                 if i == row and j == col:
                     continue
-                if i>0 and j>0:
+                if len(grid)>i>=0 and len(grid)>j>=0 and not grid[i][j].is_block():
                     tmp.append(grid[i][j])
         return tmp       
     @property  
@@ -69,9 +75,11 @@ class spot:
         return self.color == TEAL
     def is_current(self):
         return self.color == PURPLE
+    def is_path(self):
+        return self.color == YELLOW
     def show(self,win):
         pygame.draw.circle(win,self._color,self._coord,self._radius,0)
-        pygame.draw.circle(win,BLACK,self._coord,self._radius,3)
+        pygame.draw.circle(win,BLACK,self._coord,self._radius,1)
         pygame.display.update()
     def vanish(self,win):
         pygame.draw.circle(win,BLACK,self._coord,self._radius,0)
