@@ -72,7 +72,7 @@ def A_PATH(start,end,win):
         if current == end:
             draw_path(start,end,PI,win)
             return True
-        VISIT.remove(current)
+        #VISIT.remove(current)
         for neighbor in current.neighbors(GRID):
             if G[neighbor] > G[current]+dis(current,neighbor):
                 G[neighbor] = G[current]+dis(current,neighbor)
